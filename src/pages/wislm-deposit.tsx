@@ -1,8 +1,17 @@
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import DepositWithdraw from "~/components/wislm-defi/deposit-withdraw";
 import WISLMBalance from "~/components/wislm-defi/wislm-balance";
 
-const Defi = () => {
+const WislmDeposit = () => {
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setHydrated(true);
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -12,14 +21,11 @@ const Defi = () => {
       </Head>
 
       <main className="container flex w-full max-w-2xl flex-col items-center gap-7 pt-10">
-        <WISLMBalance />
-        <DepositWithdraw />
-
-
-
+        {hydrated && <WISLMBalance />}
+        {hydrated && <DepositWithdraw /> }
       </main>
     </>
   );
 };
 
-export default Defi;
+export default WislmDeposit;

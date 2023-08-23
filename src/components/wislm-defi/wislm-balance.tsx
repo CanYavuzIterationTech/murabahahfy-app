@@ -9,23 +9,13 @@ import {
 import * as z from "zod";
 import { formatEther, parseEther } from "viem";
 import { usePublicClient, useQuery, useWalletClient } from "wagmi";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Button } from "../ui/button";
-import {
-  getSukukWISLMContract,
+  
   getWISLMERC20Contract,
 } from "~/lib/sukuk/get-contract";
+import PleaseConnect from "../general/please-connect";
+import PleaseChangeNetwork from "../general/please-change-network";
 
 const WISLMBalance = () => {
   const { data: walletClient } = useWalletClient();
@@ -49,6 +39,10 @@ const WISLMBalance = () => {
       enabled: !!walletClient && !!publicClient,
     }
   );
+
+
+    if(!walletClient) return <PleaseConnect />
+    if(walletClient.chain.id !== 54211) return <PleaseChangeNetwork />
 
   return (
     <Card className="w-full">

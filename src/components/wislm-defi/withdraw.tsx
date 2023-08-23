@@ -18,7 +18,7 @@ import { Input } from "~/components/ui/input";
 import { Button } from "../ui/button";
 import {
   getSukukWISLMContract,
-  getWISLMERC20Contract,
+
 } from "~/lib/sukuk/get-contract";
 
 const createFormSchema = (totalOwned: bigint) => {
@@ -68,33 +68,15 @@ const Deposit = () => {
 
       const bigintDeposit = parseEther(values.amount.toString());
 
-      const wislmPublic = getWISLMERC20Contract({
-        publicClient,
-      });
+
 
       const sukukWislmPublic = getSukukWISLMContract({
         publicClient,
       });
-      // Get approval amount
-      const approvalAmount = await wislmPublic.read.allowance([
-        walletClient.account.address,
-        sukukWislmPublic.address,
-      ]);
-
-      if (approvalAmount < bigintDeposit) {
-        const { request } = await publicClient.simulateContract({
-          ...wislmPublic,
-          functionName: "approve",
-          args: [sukukWislmPublic.address, balance],
-          account: walletClient.account.address,
-        });
-        const hash = await walletClient.writeContract(request);
-        await publicClient.waitForTransactionReceipt({ hash });
-      }
-
+   
       const { request } = await publicClient.simulateContract({
         ...sukukWislmPublic,
-        functionName: "deposit",
+        functionName: "withdraw",
         args: [bigintDeposit],
         account: walletClient.account.address,
       });
@@ -128,13 +110,13 @@ const Deposit = () => {
                     <Input placeholder="150.0" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Amount of WISLM inside is {formatEther(balance ?? BigInt(0))}
+                    Amount you can withdraw is {formatEther(balance ?? BigInt(0))}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Deposit</Button>
+            <Button type="submit">Withdraw</Button>
           </form>
         </Form>
       </CardContent>

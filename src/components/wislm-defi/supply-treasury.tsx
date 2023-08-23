@@ -20,6 +20,8 @@ import {
   getSukukWISLMContract,
   getWISLMERC20Contract,
 } from "~/lib/sukuk/get-contract";
+import PleaseConnect from "../general/please-connect";
+import PleaseChangeNetwork from "../general/please-change-network";
 
 const createFormSchema = (totalOwned: bigint) => {
   const totalOwnedNumber = Number(formatEther(totalOwned)); // 1.3
@@ -29,20 +31,24 @@ const createFormSchema = (totalOwned: bigint) => {
   });
 };
 
-const Deposit = () => {
+const SupplyTreasury = () => {
   const { data: walletClient } = useWalletClient();
 
   const publicClient = usePublicClient();
 
+  
+
   const { data: balance } = useQuery(
-    ["wislm-balance"],
+    ["supply-treasury-01"],
     async () => {
       if (!walletClient) return;
       if (!publicClient) return;
-      const wislmPublic = getWISLMERC20Contract({
+
+      const wislmSukukPublic = getSukukWISLMContract({
         publicClient,
       });
-      const balance = await wislmPublic.read.balanceOf([
+
+      const balance = await wislmSukukPublic.read.tokenBalance([
         walletClient.account.address,
       ]);
       return balance;
@@ -74,25 +80,10 @@ const Deposit = () => {
         publicClient,
       });
       // Get approval amount
-      const approvalAmount = await wislmPublic.read.allowance([
-        walletClient.account.address,
-        sukukWislmPublic.address,
-      ]);
-
-      if (approvalAmount < bigintDeposit) {
-        const { request } = await publicClient.simulateContract({
-          ...wislmPublic,
-          functionName: "approve",
-          args: [sukukWislmPublic.address, balance],
-          account: walletClient.account.address,
-        });
-        const hash = await walletClient.writeContract(request);
-        await publicClient.waitForTransactionReceipt({ hash });
-      }
 
       const { request } = await publicClient.simulateContract({
         ...sukukWislmPublic,
-        functionName: "deposit",
+        functionName: "supply",
         args: [bigintDeposit],
         account: walletClient.account.address,
       });
@@ -105,12 +96,14 @@ const Deposit = () => {
     }
   }
 
- 
+  if (!walletClient) return <PleaseConnect />;
+
+  if (walletClient.chain.id !== 54211) return <PleaseChangeNetwork />;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Deposit</CardTitle>
+        <CardTitle>Supply</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -128,14 +121,14 @@ const Deposit = () => {
                     <Input placeholder="150.0" {...field} />
                   </FormControl>
                   <FormDescription>
-                    Amount you can deposit is {" "}
+                    Amount of WISLM inside is{" "}
                     {formatEther(balance ?? BigInt(0))}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Deposit</Button>
+            <Button type="submit">Supply</Button>
           </form>
         </Form>
       </CardContent>
@@ -143,4 +136,4 @@ const Deposit = () => {
   );
 };
 
-export default Deposit;
+export default SupplyTreasury;
