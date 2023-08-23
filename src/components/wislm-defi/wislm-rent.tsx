@@ -114,6 +114,53 @@ const WislmRent = () => {
       const hash = await walletClient.writeContract(request);
       await publicClient.waitForTransactionReceipt({ hash });
 
+
+      const rents = await sukukWislmPublic.read.listRents([
+        walletClient.account.address,
+      ]);
+
+      const lastItem = rents[rents.length - 1];
+      
+      console.log(lastItem);
+      const address = walletClient.account.address;
+
+      if (lastItem) {
+        const endDate = new Date(Number(lastItem.endDate) * 1000);
+        const startDate = new Date(Number(lastItem.startDate) * 1000);
+        const count = formatEther(lastItem.amount);
+        const indeksler = [
+          {
+            indeks: rents.length - 1,
+          },
+        ];
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+          adres: address,
+          startdate: startDate,
+          enddate: endDate,
+          count: count,
+          indeksler: indeksler,
+        });
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: raw,
+        };
+
+          console.log("Fetching");
+        fetch(
+          "https://suku-fi-chat-bot-097bd90d5893.herokuapp.com/addindex",
+          requestOptions
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.log("error", error));
+      }
+
       console.log(values);
     } catch (err) {
       console.error(err);
@@ -198,7 +245,7 @@ const WislmRent = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Supply</Button>
+            <Button type="submit">Rent</Button>
           </form>
         </Form>
       </CardContent>

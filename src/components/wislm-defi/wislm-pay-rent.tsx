@@ -29,6 +29,19 @@ import { format } from "date-fns";
 import { Calendar } from "../ui/calendar";
 import PayRentCard from "./pay-rent-card";
 
+type IncomeResponse = {
+  _id: string;
+  adres: string;
+  indeksler: Indeks[];
+  __v: number;
+};
+
+type Indeks = {
+  indeks: number;
+  pdfURL: string;
+  _id: string;
+};
+
 const createFormSchema = (totalOwned: bigint) => {
   const totalOwnedNumber = Number(formatEther(totalOwned)); // 1.3
 
@@ -93,7 +106,24 @@ const WislmRent = () => {
         walletClient.account.address,
       ]);
 
-      return balance;
+      const req = await fetch(
+        "https://suku-fi-chat-bot-097bd90d5893.herokuapp.com/listindex",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            adres: walletClient.account.address,
+          }),
+        }
+      );
+
+      const res = (await req.json()) as IncomeResponse;
+
+      console.log(res);
+
+      return { rents: balance, income: res };
     },
     {
       enabled: !!walletClient && !!publicClient,
@@ -110,13 +140,38 @@ const WislmRent = () => {
 
   if (walletClient.chain.id !== 54211) return <PleaseChangeNetwork />;
 
-  if (rents && rents.length > 0) {
+  if (rents && rents.rents.length > 0) {
     return (
       <div className="mt-4 flex flex-col gap-7">
         {" "}
-        {rents.map((rent, index) => {
-           
-           if(rent.isPaid === false) return <PayRentCard info={rent} index={index} key={index} />;
+        {rents.rents.map((rent, index) => {
+          // if rents.income.indeksler[index].pdfURL
+          // return <PayRentCard info={rent} index={index} key={index} specificInfo={rents.income.indeksler[index].pdfURL} />;
+          let pdfUrl = undefined;
+          const f = rents?.income?.indeksler.filter((item) => item.indeks === index);
+
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
+          if(f.length>0 && f[0].indeks === index){
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            pdfUrl = f[0].pdfURL;
+          }
+
+         console.log("f", f);
+
+          
+          console.log("Index: ", index," pdf url " ,pdfUrl);
+          console.log(index);
+          if (rent.isPaid === false)
+            return (
+              <PayRentCard
+                info={rent}
+                index={index}
+                key={index}
+                specificInfo={pdfUrl}
+              />
+            );
         })}
       </div>
     );
