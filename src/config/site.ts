@@ -5,7 +5,7 @@ export const siteConfig = {
   description:
     "Murabahahfy is a decentralized halal financing platform that allows users to rent and supply assets in a trustless and transparent way.",
   links: {
-    twitter: "https://twitter.com/omchain",
+    twitter: "#",
   },
 };
 

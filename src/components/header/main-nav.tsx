@@ -62,15 +62,13 @@ export function MainNav() {
           Zakat
         </Link>
         <Link
-          href="/docs"
+          href="/wgold-deposit"
           className={cn(
             "transition-colors hover:text-foreground/80",
-            pathname?.startsWith("/docs/components")
-              ? "text-foreground"
-              : "text-foreground/60"
+            pathname === "/zakat" ? "text-foreground" : "text-foreground/60"
           )}
         >
-          Components
+          W-Gold Deposit?
         </Link>
       </nav>
     </div>

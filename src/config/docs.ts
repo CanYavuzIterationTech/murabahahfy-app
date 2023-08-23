@@ -9,20 +9,24 @@ export const docsConfig: DocsConfig = {
   mainNav: [],
   sidebarNav: [
     {
-      title: "DeFi",
-      href: "/defi",
+      title: "W-Islm Deposit",
+      href: "/wislm-deposit",
+    },
+    {
+      title: "W-Islm Supply",
+      href: "/wislm-supply"
+    },
+    {
+      title: "W-Islm Rent",
+      href: "/wislm-rent"
     },
     {
       title: "Zakat",
       href: "/zakat"
     },
     {
-      title: "NFT",
-      href: "/nft"
-    },
-    {
-      title: "Fundraising",
-      href: "/fundraising"
-    },
+      title: "W-Gold Deposit?",
+      href: "/wgold-deposit"
+    }
   ],
 };

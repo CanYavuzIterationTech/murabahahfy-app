@@ -1,0 +1,169 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.chat--icon {
+  position: relative;
+  font-size: 3em;
+  margin-bottom: 0;
+}
+
+.chat--widget-button p {
+  font-family: Cabin, sans-serif;
+  font-size: 1em;
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
+.chat--widget-button {
+  color: #ffffff;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 15s ease infinite;
+  -moz-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+
+  /* CSS borrowed from another codepen - will reference! */
+
+  box-shadow: 1px 1px 40px #000000;
+  border: 1px solid #ffffff;
+  cursor: pointer;
+}
+
+@-webkit-keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@-moz-keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.chat--icon ul {
+  padding: 0;
+  position: absolute;
+  top: auto;
+  bottom: 15px;
+  margin: 0;
+  left: 0;
+  right: 5px;
+  margin: auto;
+}
+
+.chat--icon li {
+  list-style: none;
+  padding: 0;
+  display: inline-block;
+}
+
+.one--dot {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0s;
+}
+
+.two--dot {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.2s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.2s;
+}
+
+.three--dot {
+  opacity: 0;
+  -webkit-animation: dot 1.3s infinite;
+  -webkit-animation-delay: 0.3s;
+  animation: dot 1.3s infinite;
+  animation-delay: 0.3s;
+}
+
+@-webkit-keyframes dot {
+  0% {
+    opacity: 0;
+    font-size: 0;
+  }
+
+  50% {
+    opacity: 1;
+    font-size: 1em;
+  }
+
+  100% {
+    opacity: 0;
+    font-size: 0;
+  }
+}
+
+@keyframes dot {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.chat--hover-show {
+  visibility: hidden;
+  opacity: 0.5;
+  height: 0;
+  overflow: hidden;
+  line-height: 1em;
+  transition: all 0.4s ease;
+}
+
+.chat--widget-button {
+  &:hover {
+    .chat--hover-show {
+      visibility: visible;
+      height: 1em;
+      opacity: 1;
+      transition: all 0.4s ease;
+    }
+  }
+}
+
+.chat--inner-content-container {
+  p {
+    font-family: "Open Sans";
+  }
+}

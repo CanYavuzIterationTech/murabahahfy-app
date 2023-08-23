@@ -62,16 +62,17 @@ const ZakatCard = () => {
       </Card>
     );
 
-  if (walletClient.chain.id !==54211) return(
-    <Card>
-    <CardHeader>
-      <CardTitle> Please switch to Haqq Chain Testnet</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <Web3NetworkSwitch />
-    </CardContent>
-  </Card>
-  )  
+  if (walletClient.chain.id !== 54211)
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle> Please switch to Haqq Chain Testnet</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Web3NetworkSwitch />
+        </CardContent>
+      </Card>
+    );
 
   return (
     <>
@@ -87,9 +88,17 @@ const ZakatCard = () => {
         <CardHeader>
           <CardTitle>Zakat</CardTitle>
           <CardDescription>
-            Zakat is a form of alms-giving treated in Islam as a religious
-            obligation or tax, which, by Quranic ranking, is next after prayer
-            in importance.
+            Zakat is a mandatory Islamic obligation that every Muslim must pay
+            once a year. With Shariah compliant DeFi, you can pay your Zakat to{" "}
+            <a
+              className="text-primary hover:underline"
+              href="https://haqq.network/wp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Shariah Oracle
+            </a>{" "}
+            whitelisted charities.
           </CardDescription>
         </CardHeader>
         <CardContent>

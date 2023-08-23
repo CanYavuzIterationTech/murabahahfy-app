@@ -1,22 +1,27 @@
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 const Quote = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Al-Baqarah 2:273</CardTitle>
+        <CardTitle>Shariah Oracle</CardTitle>
         <CardDescription>
-          ˹Charity is˺ for the needy who are too engaged in the cause of Allah
-          to move about in the land ˹for work˺. Those unfamiliar with their
-          situation will think they are not in need ˹of charity˺ because they do
-          not beg. You can recognize them by their appearance. They do not beg
-          people persistently. Whatever you give in charity is certainly well
-          known to Allah.
+          Shariah Oracle is an on-chain mechanism controlling a whitelist of
+          smart contracts allowed for interaction (signing and listing in the
+          in-app marketplace) through the HAQQ Wallet.
+        </CardDescription>
+        <CardDescription>
+          The Shariah Oracle serves as an on-chain registry of Halal
+          Certificates that provides smart contract developers and web2
+          businesses a way to prove their ethical relevance for Muslim users by
+          listing their products/services on the HAQQ Wallet.
+        </CardDescription>
+        <CardDescription>
+          Integrating the Shariah Oracle with HAQQ Wallet will ensure that users
+          interact only with whitelisted, Sharia-compliant dApps. Thus whilst
+          being a place where anyone can deploy their dApp or project, HAQQ
+          network&#39;s Shariah Oracle is a key measure to minimize unethical or
+          Haram activity in our network.
         </CardDescription>
       </CardHeader>
     </Card>

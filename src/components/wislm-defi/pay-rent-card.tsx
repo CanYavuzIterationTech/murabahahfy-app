@@ -77,7 +77,9 @@ const PayRentCard = ({
         <CardDescription>
           End Date: {new Date(Number(info.endDate) * 1000).toDateString()}
         </CardDescription>
-        <CardContent>
+
+      </CardHeader>
+      <CardContent>
           <Button
             onClick={() => {
               payRent().catch((err) => console.error(err));
@@ -86,7 +88,6 @@ const PayRentCard = ({
             Pay Rent
           </Button>
         </CardContent>
-      </CardHeader>
     </Card>
   );
 };

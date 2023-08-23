@@ -3,22 +3,17 @@ import type { JSX, SVGProps } from "react";
 
 const navigation = {
   defi: [
-    { name: "DeFi", href: "/defi" },
+    { name: "W-ISLM Deposit", href: "/wislm-deposit" },
+    { name: "W-ISLM Supply", href: "/wislm-supply" },
+    { name: "W-ISLM Rent", href: "/wislm-rent" },
+  ],
+  zakat: [{ name: "Zakat", href: "/zakat" }],
+  nft: [{ name: "W-Gold Deposit?", href: "/wgold-deposit" }],
 
-  ],
-  zakat: [
-    { name: "Zakat", href: "/zakat" },
-   
-  ],
-  nft: [
-    { name: "Create", href: "/create" },
-    { name: "Browse", href: "/browse" },
-  ],
-  fundraising: [{ name: "Fundraising", href: "/fundraising" }],
   social: [
     {
       name: "Facebook",
-      href: "https://www.facebook.com/omchainio/",
+      href: "#",
       icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
@@ -31,7 +26,7 @@ const navigation = {
     },
     {
       name: "Instagram",
-      href: "https://www.instagram.com/omchainio/",
+      href: "#",
       icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
@@ -44,7 +39,7 @@ const navigation = {
     },
     {
       name: "Twitter",
-      href: "https://twitter.com/omchainio/",
+      href: "#",
       icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
@@ -53,7 +48,7 @@ const navigation = {
     },
     {
       name: "Telegram",
-      href: "https://t.me/omChainio",
+      href: "#",
       icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +69,7 @@ const navigation = {
     },
     {
       name: "YouTube",
-      href: "https://www.youtube.com/@omChain",
+      href: "#",
       icon: (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
           <path
@@ -98,7 +93,6 @@ export default function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
-
             <p className="text-sm leading-6 text-primary">
               Creating a halal ecosystem for the ummah.
             </p>
@@ -120,7 +114,7 @@ export default function SiteFooter() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-primary">
-                  Defi
+                  W-ISLM DeFi
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.defi.map((item) => (
@@ -156,27 +150,10 @@ export default function SiteFooter() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold leading-6 text-primary">
-                  NFT
+                  W-GOLD DeFi
                 </h3>
                 <ul role="list" className="mt-6 space-y-4">
                   {navigation.nft.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        className="text-sm leading-6 text-primary hover:text-primary-foreground"
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm font-semibold leading-6 text-primary">
-                  Fundraising
-                </h3>
-                <ul role="list" className="mt-6 space-y-4">
-                  {navigation.fundraising.map((item) => (
                     <li key={item.name}>
                       <a
                         href={item.href}
@@ -193,7 +170,7 @@ export default function SiteFooter() {
         </div>
         <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-400">
-            &copy; 2023 Omchain Foundation. All rights reserved.
+            &copy; 2023 SukuFi. All rights reserved.
           </p>
         </div>
       </div>

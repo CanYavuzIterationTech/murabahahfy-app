@@ -11,6 +11,7 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Modal } from "@web3modal/react";
 import SiteFooter from "~/components/footer/footer";
+import Chat from "~/components/chat-bot/chat";
 
 const chains = [haqqMainnet, haqqTestedge2];
 const projectId = "42418971c8d5230992d8f3e68dbe111b";
@@ -29,7 +30,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <WagmiConfig config={wagmiConfig}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
+        
           <Component {...pageProps} />
+    
           <SiteFooter />
         </ThemeProvider>
       </WagmiConfig>
