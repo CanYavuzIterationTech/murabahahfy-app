@@ -22,22 +22,44 @@ import {
 } from "~/lib/sukuk/get-contract";
 import PleaseConnect from "../general/please-connect";
 import PleaseChangeNetwork from "../general/please-change-network";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "~/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "../ui/calendar";
 
 const createFormSchema = (totalOwned: bigint) => {
   const totalOwnedNumber = Number(formatEther(totalOwned)); // 1.3
 
   return z.object({
     amount: z.coerce.number().min(0).max(totalOwnedNumber),
+    // min date is 31 days from now
+    end_date: z.date().refine((date) => {
+      const now = new Date();
+      const thirtyOneDaysFromNow = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 31
+      );
+      return date >= thirtyOneDaysFromNow;
+    }),
   });
 };
 
-const WithdrawTreasury = () => {
+const WislmRent = () => {
+  const today = new Date();
+  const minDate = new Date(today);
+  const maxDate = new Date(today);
+
+  minDate.setDate(minDate.getDate() + 31); // 31 days into the future
+  maxDate.setDate(maxDate.getDate() + 364); // 364 days into the future
+
   const { data: walletClient } = useWalletClient();
 
   const publicClient = usePublicClient();
 
   const { data: balance } = useQuery(
-    ["withdraw-treasury-01"],
+    ["rent-stuff"],
     async () => {
       if (!walletClient) return;
       if (!publicClient) return;
@@ -46,7 +68,7 @@ const WithdrawTreasury = () => {
         publicClient,
       });
 
-      const balance = await wislmSukukPublic.read.balanceOf([
+      const balance = await wislmSukukPublic.read.tokenBalance([
         walletClient.account.address,
       ]);
       return balance;
@@ -69,32 +91,24 @@ const WithdrawTreasury = () => {
       if (!balance) return;
 
       const bigintDeposit = parseEther(values.amount.toString());
+      const endDateUNIX =  Math.floor(values.end_date.getTime() / 1000);
+      const currentDateUnix = Math.floor(Date.now() / 1000);
+      
+
+      const wislmPublic = getWISLMERC20Contract({
+        publicClient,
+      });
 
       const sukukWislmPublic = getSukukWISLMContract({
         publicClient,
       });
       // Get approval amount
 
-      const approvalAmount = await sukukWislmPublic.read.allowance([
-        walletClient.account.address,
-        sukukWislmPublic.address,
-      ]);
-
-      if (approvalAmount < bigintDeposit) {
-        const { request } = await publicClient.simulateContract({
-          ...sukukWislmPublic,
-          functionName: "approve",
-          args: [sukukWislmPublic.address, balance],
-          account: walletClient.account.address,
-        });
-        const hash = await walletClient.writeContract(request);
-        await publicClient.waitForTransactionReceipt({ hash });
-      }
-
+   
       const { request } = await publicClient.simulateContract({
         ...sukukWislmPublic,
-        functionName: "withdrawSupply",
-        args: [bigintDeposit],
+        functionName: "createRentContract",
+        args: [bigintDeposit, BigInt((endDateUNIX - currentDateUnix))],
         account: walletClient.account.address,
       });
       const hash = await walletClient.writeContract(request);
@@ -113,7 +127,7 @@ const WithdrawTreasury = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Withdraw</CardTitle>
+        <CardTitle>Rent</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -138,7 +152,53 @@ const WithdrawTreasury = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Withdraw</Button>
+
+            <FormField
+              control={form.control}
+              name="end_date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Pick end date</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] pl-3 text-left font-normal",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) => {
+
+                          return date < minDate || date > maxDate;
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    Min rent is 30 days. Max rent is 365 days.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Supply</Button>
           </form>
         </Form>
       </CardContent>
@@ -146,4 +206,4 @@ const WithdrawTreasury = () => {
   );
 };
 
-export default WithdrawTreasury;
+export default WislmRent;

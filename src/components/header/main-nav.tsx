@@ -40,6 +40,17 @@ export function MainNav() {
         >
           W-ISLM Supply
         </Link>
+        <Link
+          href="/wislm-rent"
+          className={cn(
+            "transition-colors hover:text-foreground/80",
+            pathname === "/wislm-rent"
+              ? "text-foreground"
+              : "text-foreground/60"
+          )}
+        >
+          W-ISLM Rent
+        </Link>
 
         <Link
           href="/zakat"

@@ -9,7 +9,7 @@ export const getSukukWISLMContract = ({
   publicClient: PublicClient;
 }) => {
   const contract = getContract({
-    address: "0x5d7C85844C5649FF16A2Bba3850675d9E3E678d0",
+    address: "0xe3Ff113fdE2A569E59FF5fdA65e3cE83D5C2Ee7D",
     abi: sukukAbi,
     publicClient,
   });
@@ -35,7 +35,7 @@ export const getSukukGoldContract = ({
   publicClient: PublicClient;
 }) => {
   const contract = getContract({
-    address: "0x9cd442ABA47008edA5bF6A49c6115AeD5aFFfAdC",
+    address: "0x4ed5777a2c42761d3b28e9547D4205D3E13Ce531",
     abi: sukukAbi,
     publicClient,
   });
